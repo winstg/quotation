@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ใบเสนอราคา - บริษัท เมืองเลยบิ๊กโฮม จำกัด</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Sarabun', sans-serif; background: #f5f5f0; min-height: 100vh; padding: 24px 16px; color: #1a1a1a; }
+
+  .page-wrapper { max-width: 860px; margin: 0 auto; }
+  .page-title { text-align: center; margin-bottom: 18px; color: #888; font-size: 13px; letter-spacing: 0.5px; }
+
+  .qf-paper { background: #fff; border-radius: 12px; box-shadow: 0 2px 16px rgba(0,0,0,0.10); overflow: hidden; }
+
+  /* HEADER */
+  .qf-header { background: #CC1313; padding: 22px 32px; display: flex; align-items: center; justify-content: space-between; }
+  .qf-logo-area { display: flex; align-items: center; gap: 14px; }
+  .qf-logo-img { background: #fff; border-radius: 7px; padding: 5px 12px; display: flex; align-items: center; justify-content: center; }
+  .qf-logo-img img { height: 42px; display: block; }
+  .qf-logo-text { color: #fff; }
+  .qf-logo-text .co-name { font-size: 14px; font-weight: 600; }
+  .qf-logo-text .co-sub { font-size: 11px; opacity: 0.82; margin-top: 2px; }
+  .qf-doc-badge { text-align: right; color: #fff; }
+  .qf-doc-badge .doc-title { font-size: 22px; font-weight: 700; letter-spacing: 1.5px; }
+  .qf-doc-badge .doc-no { font-size: 11px; opacity: 0.8; margin-top: 2px; }
+
+  /* INFO BAR */
+  .co-info-bar { background: #fff5f5; border-bottom: 1px solid #f5d0d0; padding: 8px 32px; display: flex; flex-wrap: wrap; gap: 16px; font-size: 11.5px; color: #666; }
+  .co-info-bar span { display: flex; align-items: center; gap: 5px; }
+
+  /* BODY */
+  .qf-body { padding: 28px 32px; }
+  .qf-section { margin-bottom: 24px; }
+  .qf-section-title { font-size: 11.5px; font-weight: 700; color: #CC1313; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 2px solid #CC1313; }
+  .qf-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .qf-grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  .qf-field { display: flex; flex-direction: column; gap: 5px; }
+  .qf-field label { font-size: 12px; color: #777; font-weight: 500; }
+  .qf-field input, .qf-field select, .qf-field textarea {
+    font-family: 'Sarabun', sans-serif; font-size: 13px;
+    border: 1px solid #ddd; border-radius: 7px;
+    padding: 8px 11px; background: #fafafa;
+    color: #1a1a1a; outline: none; width: 100%;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .qf-field input:focus, .qf-field select:focus, .qf-field textarea:focus {
+    border-color: #CC1313; box-shadow: 0 0 0 3px rgba(204,19,19,0.10); background: #fff;
+  }
+  .qf-field textarea { resize: vertical; min-height: 64px; }
+
+  /* TABLE */
+  .qf-table-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid #eee; }
+  .qf-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .qf-table th { background: #CC1313; color: #fff; padding: 9px 10px; text-align: left; font-weight: 600; font-size: 12px; white-space: nowrap; }
+  .qf-table th.r { text-align: right; }
+  .qf-table td { padding: 5px 5px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+  .qf-table tr:last-child td { border-bottom: none; }
+  .qf-table tr:hover td { background: #fff5f5; }
+  .qf-table td input, .qf-table td select {
+    font-family: 'Sarabun', sans-serif; font-size: 12px;
+    border: 1px solid #e5e5e5; border-radius: 5px;
+    padding: 5px 7px; background: #fafafa;
+    color: #1a1a1a; width: 100%; outline: none;
+  }
+  .qf-table td input:focus, .qf-table td select:focus { border-color: #CC1313; background: #fff; }
+  .num-col { width: 38px; text-align: center; color: #aaa; font-size: 11px; }
+  .sku-col { width: 90px; }
+  .unit-col { width: 75px; }
+  .qty-col { width: 75px; }
+  .price-col { width: 100px; }
+  .disc-col { width: 72px; }
+  .total-col { width: 110px; text-align: right; font-weight: 600; color: #CC1313; padding-right: 10px !important; }
+  .cell-total { display: block; text-align: right; padding: 5px 2px; font-size: 12.5px; font-weight: 600; color: #CC1313; }
+
+  /* BUTTONS */
+  .qf-add-row { margin-top: 12px; display: flex; gap: 10px; }
+  .btn-add { font-family: 'Sarabun', sans-serif; font-size: 12.5px; padding: 7px 16px; border-radius: 7px; border: 1.5px solid #CC1313; color: #CC1313; background: transparent; cursor: pointer; transition: background 0.15s; }
+  .btn-add:hover { background: rgba(204,19,19,0.07); }
+  .btn-rem { border-color: #ccc; color: #888; }
+  .btn-rem:hover { background: #f5f5f5 !important; }
+
+  /* SUMMARY */
+  .qf-summary { display: grid; grid-template-columns: 1fr 270px; gap: 24px; align-items: start; margin-top: 24px; }
+  .qf-totals { background: #fafafa; border-radius: 9px; border: 1px solid #eee; padding: 16px 18px; }
+  .total-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; padding: 5px 0; }
+  .total-row.divider { border-top: 1px solid #eee; margin-top: 7px; padding-top: 9px; }
+  .total-row.grand { font-size: 17px; font-weight: 700; color: #CC1313; border-top: 2px solid #CC1313; margin-top: 9px; padding-top: 11px; }
+  .total-label { color: #666; }
+  .total-val { font-weight: 600; min-width: 95px; text-align: right; }
+  .vat-sel { font-family: 'Sarabun', sans-serif; font-size: 12px; border: 1px solid #ddd; border-radius: 5px; padding: 3px 7px; background: #fff; color: #333; outline: none; cursor: pointer; }
+
+  /* PAYMENT */
+  .payment-row { margin-top: 12px; display: flex; align-items: center; gap: 10px; }
+  .payment-row label { font-size: 12px; color: #777; white-space: nowrap; }
+  .payment-sel { font-family: 'Sarabun', sans-serif; font-size: 13px; border: 1px solid #ddd; border-radius: 7px; padding: 7px 11px; background: #fafafa; color: #1a1a1a; outline: none; }
+  .payment-sel:focus { border-color: #CC1313; }
+
+  /* SIGNATURE */
+  .qf-sign { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 28px; }
+  .sign-box { border: 1px solid #e5e5e5; border-radius: 9px; padding: 14px 18px; text-align: center; }
+  .sign-role { font-size: 12px; color: #888; margin-bottom: 4px; }
+  .sign-line { border-top: 1.5px dashed #ccc; margin: 44px 18px 12px; }
+  .sign-label { font-size: 11.5px; color: #999; }
+  .sign-name-input { font-family: 'Sarabun', sans-serif; font-size: 13px; border: 0; border-bottom: 1px solid #ddd; border-radius: 0; padding: 5px 0; background: transparent; color: #1a1a1a; outline: none; width: 80%; text-align: center; margin-top: 8px; }
+  .sign-name-input:focus { border-bottom-color: #CC1313; }
+  .sign-date { font-size: 12px; color: #aaa; margin-top: 8px; }
+
+  /* FOOTER */
+  .qf-footer { background: #fafafa; border-top: 1px solid #eee; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .qf-footer .addr { font-size: 11.5px; color: #888; line-height: 1.7; }
+  .footer-btns { display: flex; gap: 10px; }
+  .btn-print { font-family: 'Sarabun', sans-serif; font-size: 13.5px; padding: 9px 24px; border-radius: 8px; border: none; background: #CC1313; color: #fff; cursor: pointer; font-weight: 600; transition: background 0.15s; }
+  .btn-print:hover { background: #a80f0f; }
+  .btn-clear { font-family: 'Sarabun', sans-serif; font-size: 13.5px; padding: 9px 18px; border-radius: 8px; border: 1px solid #ccc; background: transparent; color: #666; cursor: pointer; transition: background 0.15s; }
+  .btn-clear:hover { background: #f0f0f0; }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .qf-paper { box-shadow: none; border-radius: 0; }
+    .footer-btns, .qf-add-row { display: none !important; }
+    .qf-footer { border-top: 1px solid #ccc; }
+  }
+
+  @media (max-width: 640px) {
+    .qf-grid2, .qf-grid3 { grid-template-columns: 1fr; }
+    .qf-summary { grid-template-columns: 1fr; }
+    .qf-sign { grid-template-columns: 1fr; }
+    .qf-header { flex-direction: column; gap: 12px; text-align: center; }
+    .qf-doc-badge { text-align: center; }
+    .qf-body { padding: 20px 16px; }
+    .qf-footer { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+  <div class="page-title">บริษัท เมืองเลยบิ๊กโฮม จำกัด — ใบเสนอราคา</div>
+  <div class="qf-paper">
+
+    <!-- HEADER -->
+    <div class="qf-header">
+      <div class="qf-logo-area">
+        <div class="qf-logo-img">
+          <img src="data:image/webp;base64,UklGRvQaAABXRUJQVlA4WAoAAAAQAAAAEwEAlQAAQUxQSBAJAAAB8IZt2yIn2rbtHTfcXWJYcNfM4O7uy+DuBBvFNcEdRnB3izG4u7tfEIIEGcgEjh9dx1FnVfWV5lIiYgLw1f9f/f/fJasPbePyhaFY+Akiursg9MtByKiLxF8fW+RLQLmpJ0jv5elFnbuQn86R2rMj82nYXJyuIn3PkJHR3XPB6S40fC8Z/mnNEH8nycWu6JBTZNYN7VI4Q0DA4Cgy9fMVDW3OTp5usWTBe0uqOzFZwiLJstfnVXRKgrocSiRrX5lY1MnI2G0HGX82fJtBRHR6YAGnIW+X1W/I8PMR1QEUH3ogyRgi2jkonxOQ9bu9ZPzJ6cXA5/zpiEFEFNUje7LOr/vKj2T4059Cobf8+DsGESWu6eKbTMvSaFMcGX5zWXlvqLRVXPrQGCJ6tqZmimSXX/fNiWT4/R9rwED3hhFvjCGi+KWNklOpW2yNJ8PvzC3nCqPT1F37zBgiurmkXPIoZYvFCWT4vSU1YFKvTtsMIqI7o8sld7I0Wx5Hhl+f19oNZg7utTvJGCI69mNI8sW91e8fyfAH82vAgjkHRBtEROfCgpIjtlqLH5HhCb81d4VVS/xy3iAi2to/ffLCLXTRPTL85ZbGaWDtMlOvGUT0ZmfjdMmFTJ32/U2Gv5vVMBUsbgOA0CmPjLE/MDhHMiDz+EOJlPT0vpEP7mxrkg4O063qiqv3jXzyjuhEeG7HUL5qUeukKZrb12awCxyuzWCP7IXTO4A8s24T0cmRHrC5WMFJLfGBtK+mxxeDFO+I3wTnOUe+IGFwcFCudCl19CJpIefpFOl9n3B049TagkWiLs7TZV3aN3oxg0SlnacTioj2uWlkkhyEBW2G2RyOi6M4powOaKAx9yyPJeZu3Wi/ZbWfKOPGTRvtt0zQ41lq2ILNkZF7V0xp76+u4pjleyIj109tnVUQ0CV8Y2Tk9vlhJaA8sO3YJWs2ireMNOioOmqvgaKb7RKmwJqfiM0gKkjsQ4iDxj0m6f4OStwGXCf+45xCGqFrSHiyLWDT59b9ICk8a9BhA25qAbkqVvYH4MnZbHa+VQaFz5nWr6IPAG8fZdeZv9KLArkDkvSzSPel9vpq3SSdYwHfpaTzzyLQ3fUWKd1q0CHBwo4Tj8o+p2YAjzKjjjwuKwD8Oh2OJ+24bQ2w6/nN27dv374zVd37tGpiBHVfkcplrjpGkf7dTa+R/vY6suwlxdtM0xNAiZsSam5X4Oc/Dn4g+3IcMPEpyW8kkfY2ywwhxdeCRbPJrL1FtV+RNQ4IxgBAsOhnu5+JL2NnswHFr5Hy36wygZS/9Rd0IvPWEzQl9UZFC3rZ4bJkql0PXUBrMtAqw8nAuFRMNjLxxxRMMbJMjKCfxkbJKCVAa3I4FcjQE8x+M9EaLY9XRkSZy+WipJSaEHI4PvGyxzFRV2X0i0ZFEl6e/eOkTbrWjP1xYZyA0mmsJiO3GRStxztJkAA1jxzPZJJOq+YOIGeXExLKZrdJMBH23z4VXSkOAKkXC4bYFSHpq2kty+UKCPAPsPfPHVozk0GRevKScIqa8SRPsEiAzJeEZwqAHyhZCiAF8bOgXVDyMgW0N3KX7KIk4WlgckkrAH6xgngfJRlJuqRdnhRFe+wyybvUamIB/CDYC3GlJO7vbEAJ7h74CYI2YP1eMx9TAflJ2AK6bSZaWnXE2jjin/tDyUTByUBol7tuDoh9uP0AHnF3oLMOR72Aply4oDL3KS2HFQxVAEZyn+rD/BL5rYWZoeYK99YXvOdFM3xav2TxEs352yL3cLFALuLz6cEObj0wiPtBkCeJifcUzOIaAScE6/bG/LZwieaCHX9Osc7nWQBcXRSEEF8F0lSJJlAdA4Rxu6E7SxJzFxjP/Sjwecs8U9ICGUn5Y+sQXakD2BR04nZDHmalJVwtfYhkEtwxiftZkDKBifNS0QAh6qKsRNQfmjp6c511ZLRMLPA7l0vBDIb8MUFFqjeGNESouhhrUXkVw7n6OlzjLLSa+ZBawSiujiXqOIrT4yIvym6r+Jn7RgcuWyUGWMUkZlYwmqtgiW8dxWAAeTZJqKqC0VxDHa7PLfQbQ4EKpjGfc1iitLpok/0C+3uS5Qp6cj10ZCELLeHq6rEBUcwbT0v4qzthsrEaAyX7FDTlzusYbqXhXKweIC+xt2EJj2fc53c6jptsokYjyXkFqT8y1Fzk8d4E78vm8mcDc9fiYoHMnxkqqWsHt8IamM0lVUoXEOCvnTeoYC4Xc03SyJkoeOmlD9HcW29JLJngDcQpRLjGPdHTgviuFmnM0SaYXx8eC+67K+jK0fncTLooMsNfaUWBXAyAwRxFy2oS/yGDRbziOTrjb6GJWg8FMVCAlxx9mF3R1+ZVMuIFmeK9Ad4COv+tYDwJ58Ei6CegxIhClpmm4ZMo2Kykg4CIXt6PI52WwFgB0brQLB7wKzDoFknTWgZxAiK6ELln127tXbv3RIaZJkJjCgn7KcE5kUJrIE5ClPj07iuSD4J1qsl0nzbNFCBz6AwSJrqryfSX4ykt038AFsIcI7aa5mHkyUQS94cSGyo4HnQx4qG3pbDJgG2m0b0LagDUcjwYpS4uK6yFtY5mCbS7KECRCw4HvVRdygGrYYpDudAM7HBBBQ4Y8krHizjL4ZurSma6wnqoetYStxW8u7q6GoTjBGUlSBt2TXC+b4oDzHJ9t5m/ZUHcAQHcxr3WdTgUwsncWMkH5qVkLtdIAPS8pGSnQW1+HCkePaBJtbSQpy9eSDMkxEsEoMDQuX+sXjFrYEUAD5hl+hIYSi/Kz12UAGlH7pckrKoP8VwuXJCGeG/B71wrEVAtIuq1riMGOUav18xyfeWran/jLvKpyhaXASjbY3LMgUMxK8IaZYDOgKpsXoFbaFXtyi6C4KpsBh0AUlWoqrPIP4EsSUyEPmfYZlNVkNjWXxIWcCmdMcB1267t23fu2L13t7+kAbF74KTfI/aUjetJfDdnrQRHVzoWSJEiZ43+R4m/lsZZw06OiBISPpO4GJx23w8SveFw4usp2wenfoCiA3DymyrZBLg4dyh4XNc/ugGwOXlA76uiu+N98IWw4ah9l6/du3nl0OTm7vjq/6/+/6+VVlA4IL4RAAAQTwCdASoUAZYAPm0ylUekIqIhKHNp+IANiWZu4W5w+dl/4zspsv90/rv7Z+zRVn6z+D/7P+0vyu7sukvNn5X/2/2++8r/gexf80/7n3BP1D/y39w/GXuCeYX+f/5P9cfdx/vv/L/zvuV/wH4x/AB/MP7962X/D9i3+9/9f2DP5b/nf/Z66X7ifCH+4P7b/Ax+xf/26wDhX/5J+LnhH/ouWv9rf2z6FUd2v6yX+P+UPd79V/0foBeyX1LwFdWWSp/v/D0+3/9L2APyR6s/9V/6vK/+cf5r9p/gG/mX9s6t37iexR+w//wYygHNAoDBlAOaBQGDKAc0CgMGUA5oFAUQ8Fd/fcbbE//7Oez+aMEOBxtGai7J9us2s6ABluDAR6ugehCm/mG9SPVwqk+LeJptzzAZ1r/i2X4nh6nSLZaK1A6PXzLicbNZmwP2XjRWGS371Yz6a5g/f0HsNDcXfctha7GU3PwF8ewhqOGVoeYP6sdwmHZX0Y7MR++k9o52uGmDZpBJ8ZYPMWv98gASTDxVAFJRFe6OzWBQ/Q4Fa11/RgBxki0Hs0fteiyOeNfekJYcp/l29ZGH7pCB4HlY0x32npbtALezxtE16WISM+mUGxUg2u9ZtqaG38k7CDPMFeFUXRDemuVeC5FqwwkU87GMcdEn3z28Qogr360jpJru1VJf1JXuLxZHRrTPIx0V4vt1jzDfwlXfgBPs4XLMo8Bu2SaPDKdaGzXGVgCr23drnWZvWI4isPPM+qI62zuwaXyzkcoJi37jWSdKvT4smnYJzy0Kpp9ay06budnfek+vPCm6nPu27FanRny5HDovmSBMpyenMkCZTk9OZIEynJ6VgAD+/3AgAAAAEUW0dzWcvIBLf8Qijq/t3gjA9gulnpjj5FQBpCoub+PoNduWMKI447dU95myoi93IH821zBkvAgcrGwixE9/1M+bAbIsqzGqW9djC4U4bmPlV2zIBpmW38zdoKALiVIK39VBcoCAAQ0nAfQIUx5qbt9yKsaU89bw1z4HGu/1JxMguoKYgBIXcacTkCmO4yxY9OYEX7E+IL7hShy3JA9bxWhkj/7d38maQVt0H1ZdeGq7DfmTI3Rbcg0hqJemexp1y9CBdqZtGgBgTD75b0ImNjxL6JlT0JdEX3K8L4HVxUo+pNQrD2BFnibZvGWaMKMP2cpBhc344pWAYmqgMxXMqUxxi2LHrq59Wrm7Rqbg5iSUOSka9P8VzIjKFl3+FgJslCQKIgrEaEGUKoKn/cevBe57PP8BSwNTQgJ6zR0TC9wq9VEeMco7LC/R8BdZ1x/d0E0eacs/Bi8qFkQF0wfhYtmywvy07ee7vDpymObDUpA+uPMaA6cUAXhPCj5bGLfzGzHagEUomFOpBTKpIhXhwigymDueBax4DNahz7lSSdKqh6y80JpB0/f2gFWQdW2PpreNiuk1I35Z03xr3cOfZx8X3Cb4x/U+/vLNXJIShc1UOi/uJu0VfbcFtGf0/4JcsNeeOhXel1M6ygswr/KfM7mt7C3noaSt19Dso33aflRPLgW1VD6x/DP4VHwsDuONam8c8ht5OKBpex8DtHGcJbVsuGYN8Q1kjt57M09B/dInYwQBbtkyzmZzJ8BngaT5epgELwRgoAkRP7pYub6aeGuHMUpoHVku6CkFWLFBWOzzMuh9DM+8VpsFtKCGLh0HBaSl43Mom09JoPh3u6IMJZjuV9RpBy51x8iWjKb0ru9w1WsOyfeDN/61uY7QhbeT2QNJqCJMLjlzhLOe2g8/4pDo1NwqGTQHCFQOJoFUZf5E0o7PtAKBfgM8KSPivICWlkpPBS/BQZkxeBtAcN/7dyUBctvjsygpdXN1HTHZIP0CEeSIz440yHced1K8bQvSaiBc9C/snW0jQZHEuyaGz5fTicjpDYCpRmjq2gOfG4Iu7Qvq9dPuqzoPjUIoKuizwm99LVm2qJP4WiHPfnJjn0IGkW4195eYLDMqKXMr5/8p7kuNrqrOwAKrZMl0UNbb8Av3yevhVN2nC/LVTY/HBRHW8hdVSO+u6EyqVj38tdokpDXRCnyJ/kBeYPXs9xfq812/B2LYTyDb2uyd/gXKSjLHF9jfbWWOmJVQi8TSZp6Dx4lKmt0JlLHZTzT3Hy/OMIn/VvR+sOAnCwsSIh/jIHT9gt/+yn3M//7fMjq7nDtLPpJvQNZkYjucGGhlmmH4CEsgkoPZr2OLIE2jQro0Mfk/AnnQ9YefHQ+vE9ZMWN0DCKluBnDbVKRust+0hLTzK5oLZIKo9VqFPROODPpl+3bIoYwwa8zbC2MJdkCvJ40Pw2mlPTJHueO9XSDGAtJFJbTK2daqoR8FfBgRBUqFWSeVuVe8Xr3ygu1V8zubvMcAx11z5DJf4qgdjfyIr95L7TvVQ37DOSFe7mfUkL9gguJO88eO1txI6fHH36dwZOpEWz2ddcePDqAYdPyTvcO/mXL8By7k1qEhy9oszfNOwHup24lN78A6aEe/MBc+3BBgYDJuhhsMhpB8LGviRjScII6+SsBsbkyubfvyt/rLQ5xxFR2TaFTePceOKb9rVqzCnjnTdhxJO+IisPBUKcRQMppdghYvnczUtkTEzbckun8qWiKnEGANin8eaAXEvKb6Nt8n5Mv4NwTKyg2FuOcHY6DgRokkSurJ8/M8Kx65/J5xAp1xJBMpjioeH2lf8sTuKTBfi8Na+dBo5XqADwfhTyyJEtcsEbbsVJnycVTFzPt/1hps1K5JgjX3hGS4efZOwaum0SwxRrQ8x/mCUdFa1mkgETfg8JF2WatZm2QeqScYcZBaJ7N2NVfHGRnjWOF4Q+V610Ev5ePsUfVaNh8CFNDxsPgQux418+K4dDmKCaT3OCBQ+ry2EDS4RCj/XzPDvzZCU83hHQJXUC1PVkXesfQ/kRiy7808K2BHHS5dt2dhC3SaW/+uuJR91smRmDn7VyeAOyfDGrBo7kE/bGJmUmNomlv9tjwZzmdjve6cVfxwtuEONMsg+E011RVFIIDjBpz+eiBPcczG/WTdhUGYtHg7DOl0BMfhW8fkHZ/ejCxacLLYKv5sv77j93zq3y1pkxxOOZ0VyWs5OWrCcUalmcv3+j2BhiEnF/NhLtMPy3BUdFEVp2+CMYy4DlAOXDZP+6Cm+vVuQeN3PRZAgyS1c3S/biDKP8tacM+a89W5gvS9C+v+V/Y5NKF6179alDCToBAtgtSqnqDDOnvZjIPHOJFPHXYH+ot1QvZUlm+ADnPZk4F+SvDZJA0FhoEuOwLpdXvf9JWjHaqnwa28+VFyBbHET9UMy9DQLPBvyvLMqgw65AWHrjXI/DV5OtdFHfsh0ankMHF65IIKHlNeSSJMXHGZhFE920hZNQ91IcrLKKE8RsaEtPxhEFXtxxV9I8Af8Rk+sYfrgPyOXhMJE5ofB5/WRGTWG8SX1G6HiLrUY2r6HpxBtZpsa+pOH2V0BGFeV9STZpL6Qts7NsNPIAtxOVU1gM36BJC6KDHWD1RBfLbHURtrUDLMzW3cKi5ag+gO4x+D2ORHTXSEMjZ0xMfM3NdvCx773wrs908kQTHpdk8POn/CCf8usbbdSt2et4VWVr4wZsQMMoRnf03XH1ANVpn5fobLIoHxlWg+xRS1YlEJ+8C91oANcnSD9h9ddCqXfX+3OB+1/DDKXjhiThkJdqkC/YNrqWk2wzIPfuu8ebU0EQVjYCkR5uXGsDzt4I+4H6FDbu/2KOgJg6/jestsLdLKazt3f2eVJnIlYTKuCtnhH06JqzMP8UnQqwXEhUH+5Yga+x6lmaZR6L4IkZqP4KoTkxNZSyMLX29wqagoCHVXi9em9f/+YEFV3IRpFDlQ4KKWf9EXUjttr+us6kaOyhs5Qawn5oQeyfZh7quFd6FNSc78hCT08sshCHVT7MNz6YQYEdkUD9Gco0mGGsuqhcnQ+kF1DqU8S/lAyfgBB6HLBGSCsi+5m8t63MqLWqNacmJja84tkZb2LhLvCvHhndsSZr9tKO7T9ADkAttaAmQ5JRdA273rjYPvyG00YE8hytbfM6EprjHrrd0rdDVqv6ZmqVCYdhwDt4ONYNTsGANzNniIJmlLg9NS1GTg4/BRDt+gaJEEiXvddBEGQhVj7xdR8jvAEiPk1BIqvO3lvRegKmfzjRH2U+qLHRh6lcJXS7oFhYci/lyfCU2hVDjVWj5S+POQmXkS3uAz1bih9aSviZFIOdsjKHQrVMuXnOxILncGR4DjmKXyPS5Wcd6tLiUMao+Z8QIS63ydadhbZ12MuAGFmpXS0bIvnQAWfZlZwSe2tepfk3lO9AIyCHCp4GSSR9Y8QvUzWaefFFNIO2zWDJef+IaKuyXLvzkxUzy++HOmcdngYn5ku75puAEAFXs0wXRzlqo5YP7WYEstKeFTZXj49YB+mqBVKF5hWlv1713UVJQDBeO51Tu1r0T7eRtOHmD+H1HIOgnjBawPs3Y5h7he6rpp6Gf2/30pHfrMZZGfpnBMFE7UK+lNh+LNokWFwpzUJp3Ezob2xFg0S+nSN9VkEgiyfHERIYkr5mhZJYkrd+8pfsfeB3mmsfmjuowKscersqW/tuhETknWwDY6QyD32oyY1xwg3HoAijhJ7Ph+wOcUatoDyau+Io9hNuJN8NbstyYD1N/qxD0Zo/FOno2QHNeBEDR3BAkAfD5N6wUaS7OjIJuJPRctOnbAzEUODuyDVeOzVlpMb7ktNlI2mYNlQPwQ+N5io61FZnKkTh60ncqQVQtRtfb7xXhvVXYh6VyborZ1OgX0KV9VWHB3hsFrS4DQFQLdwLZhKeMjx/UaCyk2PPcDAFDRuQMTgY2QK+cQOZR0GqG9WrHFS0hxKIO6LHqy7YQEJSw1w7SSA42oGxyfT3KoaSVlQ11UZXMZElcf5kA7xfV1IxdxU4tE/Bta7USwq7XBIQJ+FNbFOrst231ViY3MlFwhsjiOLlDUeDQnftlqaa5JZ7aHWHaF96iALFVLRLwrik2XupE3wIONSV5d3bDbtp54kxWpxOVyCmhZWv3JUfNZUaQMA6sHguArVzNbl0S909zgKQPsJ9pKvPldh6asJhiKrOFSc05FIYT6UrJOweUr0YhT4JXcfrNTHGYAKdJb0S/UHj5yFAIHfo5uWu3yr5VeOGoewEOADEFMcYFCnJFaP7SVcPKu49A4MaWYZTZX8T+AMMUaOdhOqZo9hkgP+j/Hu9p6hOenBi8csjZkOGycggXdL64lL/0cJdGKHPtTdOudNjfQF5uNCyHWfuXlqNel5eE9zs3o4wkHeQi9QsY/ybLJoPsXw8pCoRx+c8bmmvAcsjlQmenMZosMpf3XmFGWHDUkdZbwde8r189zAZl/lh4GOO10d8E5UHy91cYbuwRr1mEiHJ6MoHnNtNk5PNECG+rEGC7fslgCLVNcx+r33qOzjPoYi+SApQ7g5g+YjIP4RzBtwv5wjxtPh5weYLJph7m2k7VKkUsV2wi3XjyRy7n9m5Zkm2a7z1IivjCVimdcZ+UI55IWSmk34e5X6tMnO6GO2WSXK4xIry9HD0zorLDt4+7R7dXDA8gDwhwEJEj2+BahNbZQtnbaa6w0TWCNTPE9eyokGtpsJiB0T+uUg0ZmWa54ixBKXIvYB6ibvxFwJp2SL5c15j1A13oAggb3fjjRFJoLRGJ0eh1zPGnl+ijnoceSqRPMvNKUX+XHOKRJJOe5LbwaN3YmHB7UVgmD01pfg79ZPBgP9YAy0oBD8o7xmrqBKxTRYhVA1WOFnIKpCNgj9UWKkuJWv8kCTDSGnsFjIwE8amM9N1tNj9P4bhBVa5L4SaimFxPCJV4ahOlc9WpLkXeRlEv3b24yfk5beAHl60iir4TNdcr/gVIwCs7kU0p3r+Ve5+NXAAXQwlt/XwAGwdPsXLNR6x3/DGvCvaSIY4772ALC5A9wFq8dEiNKQo3W9QSBPRnwjivhiaLfNJbjY1KbEV3ZW1d0j3YzO88fEYMNAThnsR3pt2hPIshCF37XpEG8GuJ72XSMUp8S1/jVBHUpzfA3Rs8DCjppAIoAAAAAAAA=" alt="Big Home Logo" />
+        </div>
+        <div class="qf-logo-text">
+          <div class="co-name">บริษัท เมืองเลยบิ๊กโฮม จำกัด</div>
+          <div class="co-sub">Mueang Loei Big Home Co., Ltd.</div>
+        </div>
+      </div>
+      <div class="qf-doc-badge">
+        <div class="doc-title">ใบเสนอราคา</div>
+        <div class="doc-no">QUOTATION</div>
+      </div>
+    </div>
+
+    <!-- INFO BAR -->
+    <div class="co-info-bar">
+      <span>📍 11/2 ถนนเลย-เชียงคาน ต.กุดป่อง อ.เมืองเลย จ.เลย 42000</span>
+      <span>🪪 เลขทะเบียนนิติบุคคล 0425542000092</span>
+    </div>
+
+    <div class="qf-body">
+
+      <!-- เอกสาร -->
+      <div class="qf-section">
+        <div class="qf-section-title">ข้อมูลเอกสาร / Document Info</div>
+        <div class="qf-grid3">
+          <div class="qf-field">
+            <label>เลขที่เอกสาร / No.</label>
+            <input type="text" id="doc-no" placeholder="QT-202604-0001" />
+          </div>
+          <div class="qf-field">
+            <label>วันที่ / Date</label>
+            <input type="date" id="doc-date" />
+          </div>
+          <div class="qf-field">
+            <label>วันหมดอายุ / Valid Until</label>
+            <input type="date" id="doc-valid" />
+          </div>
+        </div>
+      </div>
+
+      <!-- ลูกค้า -->
+      <div class="qf-section">
+        <div class="qf-section-title">ข้อมูลลูกค้า / Customer Info</div>
+        <div class="qf-grid2">
+          <div class="qf-field">
+            <label>ชื่อลูกค้า / Customer Name</label>
+            <input type="text" id="cust-name" placeholder="ชื่อบริษัท / ชื่อบุคคล" />
+          </div>
+          <div class="qf-field">
+            <label>เลขประจำตัวผู้เสียภาษี / Tax ID</label>
+            <input type="text" id="cust-tax" placeholder="0000000000000" maxlength="13" />
+          </div>
+        </div>
+        <div class="qf-field" style="margin-top:12px;">
+          <label>ที่อยู่ / Address</label>
+          <textarea id="cust-addr" placeholder="ที่อยู่ลูกค้า..."></textarea>
+        </div>
+        <div class="qf-grid3" style="margin-top:12px;">
+          <div class="qf-field">
+            <label>ผู้ติดต่อ / Contact Person</label>
+            <input type="text" id="cust-contact" placeholder="ชื่อผู้ติดต่อ" />
+          </div>
+          <div class="qf-field">
+            <label>เบอร์โทร / Phone</label>
+            <input type="tel" id="cust-phone" placeholder="0xx-xxx-xxxx" />
+          </div>
+          <div class="qf-field">
+            <label>อีเมล / Email</label>
+            <input type="email" id="cust-email" placeholder="email@example.com" />
+          </div>
+        </div>
+      </div>
+
+      <!-- รายการสินค้า -->
+      <div class="qf-section">
+        <div class="qf-section-title">รายการสินค้า / Items</div>
+        <div class="qf-table-wrap">
+          <table class="qf-table">
+            <thead>
+              <tr>
+                <th class="num-col">#</th>
+                <th class="sku-col">รหัสสินค้า</th>
+                <th style="min-width:180px;">รายการสินค้า / Description</th>
+                <th class="unit-col">หน่วย</th>
+                <th class="qty-col r">จำนวน</th>
+                <th class="price-col r">ราคา/หน่วย</th>
+                <th class="disc-col r">ส่วนลด%</th>
+                <th class="total-col r">รวม (บาท)</th>
+              </tr>
+            </thead>
+            <tbody id="item-body"></tbody>
+          </table>
+        </div>
+        <div class="qf-add-row">
+          <button class="btn-add" onclick="addRow()">+ เพิ่มรายการ</button>
+          <button class="btn-add btn-rem" onclick="removeLastRow()">− ลบรายการสุดท้าย</button>
+        </div>
+      </div>
+
+      <!-- สรุป -->
+      <div class="qf-summary">
+        <div>
+          <div class="qf-section-title">หมายเหตุ / Remark</div>
+          <div class="qf-field">
+            <textarea id="remark" placeholder="เงื่อนไขการชำระเงิน, การจัดส่ง, ข้อกำหนดพิเศษ..."></textarea>
+          </div>
+          <div class="payment-row">
+            <label>เงื่อนไขการชำระ:</label>
+            <select class="payment-sel" id="payment-term">
+              <option>เงินสด</option>
+              <option>โอนเงิน</option>
+              <option>เครดิต 15 วัน</option>
+              <option>เครดิต 30 วัน</option>
+              <option>เครดิต 45 วัน</option>
+              <option>เครดิต 60 วัน</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <div class="qf-section-title">สรุปยอด / Summary</div>
+          <div class="qf-totals">
+            <div class="total-row">
+              <span class="total-label">ยอดรวมก่อน VAT</span>
+              <span class="total-val" id="t-subtotal">0.00</span>
+            </div>
+            <div class="total-row">
+              <span class="total-label">ส่วนลดรวม</span>
+              <span class="total-val" id="t-discount">(0.00)</span>
+            </div>
+            <div class="total-row divider">
+              <span class="total-label">ยอดหลังหักส่วนลด</span>
+              <span class="total-val" id="t-after-disc">0.00</span>
+            </div>
+            <div class="total-row">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span class="total-label">VAT</span>
+                <select class="vat-sel" id="vat-rate" onchange="calcTotals()">
+                  <option value="0">ไม่มี VAT</option>
+                  <option value="7" selected>VAT 7%</option>
+                </select>
+              </div>
+              <span class="total-val" id="t-vat">0.00</span>
+            </div>
+            <div class="total-row grand">
+              <span>ยอดรวมทั้งสิ้น</span>
+              <span id="t-grand">฿0.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ลายเซ็น -->
+      <div class="qf-sign">
+        <div class="sign-box">
+          <div class="sign-role">ลูกค้า / Customer</div>
+          <div class="sign-line"></div>
+          <div class="sign-label">ลายเซ็น / Signature</div>
+          <input class="sign-name-input" type="text" placeholder="ชื่อ / Name" />
+          <div class="sign-date">วันที่ ________________</div>
+        </div>
+        <div class="sign-box">
+          <div class="sign-role">ผู้เสนอราคา / Authorized By</div>
+          <div class="sign-line"></div>
+          <div class="sign-label">ลายเซ็น / Signature</div>
+          <input class="sign-name-input" type="text" placeholder="ชื่อ / Name" />
+          <div class="sign-date">วันที่ ________________</div>
+        </div>
+      </div>
+
+    </div><!-- /qf-body -->
+
+    <!-- FOOTER -->
+    <div class="qf-footer">
+      <div class="addr">
+        <strong>บริษัท เมืองเลยบิ๊กโฮม จำกัด</strong> &nbsp;·&nbsp; เลขทะเบียนนิติบุคคล 0425542000092<br/>
+        11/2 ถนนเลย-เชียงคาน ตำบลกุดป่อง อำเภอเมืองเลย จังหวัดเลย 42000
+      </div>
+      <div class="footer-btns">
+        <button class="btn-clear" onclick="clearForm()">ล้างข้อมูล</button>
+        <button class="btn-print" onclick="window.print()">🖨️ พิมพ์ / Print</button>
+      </div>
+    </div>
+
+  </div><!-- /qf-paper -->
+</div><!-- /page-wrapper -->
+
+<script>
+  var rowCount = 0;
+
+  function fmt(n) {
+    return n.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function addRow() {
+    rowCount++;
+    var rid = rowCount;
+    var tbody = document.getElementById('item-body');
+    var tr = document.createElement('tr');
+    tr.id = 'row-' + rid;
+    tr.innerHTML =
+      '<td class="num-col">' + rid + '</td>' +
+      '<td class="sku-col"><input type="text" placeholder="SKU" /></td>' +
+      '<td><input type="text" placeholder="ชื่อสินค้า/บริการ" style="width:100%;" /></td>' +
+      '<td class="unit-col"><select style="width:100%;font-family:inherit;">' +
+        '<option>ชิ้น</option><option>อัน</option><option>กล่อง</option>' +
+        '<option>ถุง</option><option>แพ็ค</option><option>ม้วน</option>' +
+        '<option>เมตร</option><option>ตร.ม.</option><option>ลิตร</option>' +
+        '<option>กก.</option><option>ชุด</option><option>งาน</option>' +
+      '</select></td>' +
+      '<td class="qty-col"><input type="number" value="1" min="0" step="any" oninput="calcRow(this)" style="text-align:right;" /></td>' +
+      '<td class="price-col"><input type="number" value="0" min="0" step="any" oninput="calcRow(this)" style="text-align:right;" /></td>' +
+      '<td class="disc-col"><input type="number" value="0" min="0" max="100" step="any" oninput="calcRow(this)" style="text-align:right;" /></td>' +
+      '<td class="total-col"><span class="cell-total" id="rt-' + rid + '">0.00</span></td>';
+    tbody.appendChild(tr);
+    calcTotals();
+  }
+
+  function calcRow(el) {
+    var tr = el.closest('tr');
+    var inputs = tr.querySelectorAll('input[type=number]');
+    var qty = parseFloat(inputs[0].value) || 0;
+    var price = parseFloat(inputs[1].value) || 0;
+    var disc = parseFloat(inputs[2].value) || 0;
+    var total = qty * price * (1 - disc / 100);
+    var id = tr.id.replace('row-', '');
+    document.getElementById('rt-' + id).textContent = fmt(total);
+    calcTotals();
+  }
+
+  function calcTotals() {
+    var subtotal = 0, discountAmt = 0;
+    document.querySelectorAll('#item-body tr').forEach(function(tr) {
+      var inputs = tr.querySelectorAll('input[type=number]');
+      if (inputs.length < 3) return;
+      var qty = parseFloat(inputs[0].value) || 0;
+      var price = parseFloat(inputs[1].value) || 0;
+      var disc = parseFloat(inputs[2].value) || 0;
+      subtotal += qty * price;
+      discountAmt += qty * price * disc / 100;
+    });
+    var afterDisc = subtotal - discountAmt;
+    var vatRate = parseFloat(document.getElementById('vat-rate').value) / 100;
+    var vat = afterDisc * vatRate;
+    var grand = afterDisc + vat;
+    document.getElementById('t-subtotal').textContent = fmt(subtotal);
+    document.getElementById('t-discount').textContent = '(' + fmt(discountAmt) + ')';
+    document.getElementById('t-after-disc').textContent = fmt(afterDisc);
+    document.getElementById('t-vat').textContent = fmt(vat);
+    document.getElementById('t-grand').textContent = '฿' + fmt(grand);
+  }
+
+  function removeLastRow() {
+    var tbody = document.getElementById('item-body');
+    if (tbody.lastChild) { tbody.removeChild(tbody.lastChild); rowCount--; calcTotals(); }
+  }
+
+  function clearForm() {
+    if (!confirm('ล้างข้อมูลทั้งหมด?')) return;
+    document.querySelectorAll('input[type=text],input[type=email],input[type=tel],input[type=date],textarea').forEach(function(el){ el.value = ''; });
+    document.getElementById('item-body').innerHTML = '';
+    rowCount = 0;
+    calcTotals();
+    init();
+  }
+
+  function init() {
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById('doc-date').value = today;
+    var d = new Date(); d.setDate(d.getDate() + 30);
+    document.getElementById('doc-valid').value = d.toISOString().split('T')[0];
+    var yr = new Date().getFullYear();
+    var mn = String(new Date().getMonth() + 1).padStart(2, '0');
+    document.getElementById('doc-no').value = 'QT-' + yr + mn + '-0001';
+    addRow(); addRow(); addRow();
+  }
+
+  init();
+</script>
+</body>
+</html>
